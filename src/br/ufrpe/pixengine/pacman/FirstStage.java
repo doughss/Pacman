@@ -9,7 +9,7 @@ import br.ufrpe.pixengine.pacman.PacMan;
 
 public class FirstStage extends State {
 	public FirstStage() {
-		manager.addObject(new GameImage("pacman/floor.png"));
+		manager.addObject(new GameImage("pacman/images/floor.png"));
 		
 		// mapa do labirinto
 		int maze_matrice[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -17,7 +17,7 @@ public class FirstStage extends State {
 						        {0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0},
 						        {0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0},
 						        {0,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,0},
-						        {1,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,1},
+						        {0,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,0},
 						        {0,0,0,1,0,0,1,0,2,2,2,2,0,1,0,0,1,0,0,0},
 						        {0,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,0},
 						        {0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0},
@@ -26,7 +26,7 @@ public class FirstStage extends State {
 		
 		this.build_maze(manager, maze_matrice);
 		
-		manager.addObject(new PacMan(420, 414, "pacman", manager));
+		manager.addObject(new PacMan(216, 324, "pacman", manager, maze_matrice));
 	}
 	
 	/**
@@ -41,13 +41,13 @@ public class FirstStage extends State {
 			int[] row =  maze_matrice[i];
 			for (int j = 0; j < row.length; j++) {
 				if(row[j] == 0){
-					manager.addObject(new Wall(j, i));
+					manager.addObject(new Wall(j, i, "wall"));
 				} else if (row[j] == 1) {
 					String tag = "point_" + point_count;
 					if((i==1 & j==1)||(i==1 & j==18)||(i==9 & j==1)||(i==9 & j==18)){
-						manager.addObject(new GreenPoint(j, i, tag, manager));
+						manager.addObject(new PurplePoint(j, i, tag, manager));
 					}else{
-						manager.addObject(new GrayPoint(j, i, tag, manager));
+						manager.addObject(new BluePoint(j, i, tag, manager));
 					}
 					point_count++;
 				}			

@@ -13,7 +13,7 @@ public class GameContainer implements Runnable {
 	private Input input;
 	private Physics physics;
 
-	private int width = 920, height = 506;
+	private int width = 720, height = 396;
 	private float scale = 1.0f;
 	private String title = "Oficina Maluca";
 	private double frameCap = 1.5/60;
