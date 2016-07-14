@@ -13,13 +13,13 @@ public class BluePoint extends GameObject{
 	public BluePoint(float column, float row, String tag, ObjectManager manager) {
 		setTag(tag);
 
-		this.point = new Image("pacman/images/blue_point.png");
+		this.point = new Image("images/blue_point.png");
 
-		this.x = 36 * column;
-		this.y = 36 * row;
+		this.x = 36 * column + 13;
+		this.y = 36 * row + 13;
 		
-		this.w = 36;
-		this.h = 36;
+		this.w = 10;
+		this.h = 10;
 		
 		this.manager = manager;
 

@@ -7,6 +7,7 @@ import br.ufrpe.pixengine.core.Renderer;
 
 public class ObjectManager {
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	private int points_amount;
 
 	public void updateObjects(GameContainer gc, float dt) {
 		for (int i = 0; i < objects.size(); i++) {
@@ -35,16 +36,17 @@ public class ObjectManager {
 	
 
 	/**
-	 * FunÃ§Ã£o para remover um GameObject do ObjectManager 
+	 * Funçãoo para remover um GameObject do ObjectManager 
 	 * 
 	 * @param tag
 	 */
-	public void removeObject(String tag) {
+	public void removePoints(String tag) {
 		for (int i = 0; i < objects.size(); i++) {
 			if (objects.get(i).getTag().equalsIgnoreCase(tag)) {
 				objects.remove(i);
 			}
 		}
+		points_amount--;
 	}
 
 	public GameObject findObject(String tag) {
@@ -55,5 +57,13 @@ public class ObjectManager {
 		}
 
 		return null;
+	}
+
+	public void setPoitsAmout(int amount) {
+		points_amount = amount;
+	}
+
+	public int getPointsAmount() {
+		return points_amount;
 	}
 }

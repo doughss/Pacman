@@ -12,7 +12,7 @@ public class Wall extends GameObject{
 	public Wall(int column, int row, String tag) {
 		setTag(tag);
 
-		this.point = new Image("pacman/images/wall.png");
+		this.point = new Image("images/wall.png");
 		this.w = 36;
 		this.h = 36;
 		

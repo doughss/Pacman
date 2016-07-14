@@ -4,29 +4,29 @@ import br.ufrpe.pixengine.components.ObjectManager;
 import br.ufrpe.pixengine.components.State;
 import br.ufrpe.pixengine.core.GameContainer;
 import br.ufrpe.pixengine.core.Renderer;
+import br.ufrpe.pixengine.core.fx.SoundClip;
 import br.ufrpe.pixengine.pacman.PacMan;
 
 
 public class FirstStage extends State {
 	public FirstStage() {
-		manager.addObject(new GameImage("pacman/images/floor.png"));
-		
+		manager.addObject(new GameImage("images/floor.png"));
 		// mapa do labirinto
 		int maze_matrice[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 						        {0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
 						        {0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0},
 						        {0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0},
 						        {0,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,0},
-						        {0,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,0},
+						        {1,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,1},
 						        {0,0,0,1,0,0,1,0,2,2,2,2,0,1,0,0,1,0,0,0},
 						        {0,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,0},
 						        {0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0},
 						        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
 						        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		
-		this.build_maze(manager, maze_matrice);
+		manager.setPoitsAmout(this.build_maze(manager, maze_matrice));
 		
-		manager.addObject(new PacMan(216, 324, "pacman", manager, maze_matrice));
+		manager.addObject(new PacMan(36, 36, "pacman", manager, maze_matrice));
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class FirstStage extends State {
 	 * 
 	 * @param game_input: Controlador de input do jogo
 	 */
-	public static void build_maze(ObjectManager manager, int maze_matrice[][]){
+	public static int build_maze(ObjectManager manager, int maze_matrice[][]){
 		int point_count = 0;
 
 		for (int i = 0; i < maze_matrice.length; i++) {
@@ -52,7 +52,8 @@ public class FirstStage extends State {
 					point_count++;
 				}			
 			}
-		}	
+		}
+		return point_count;
 	}
 
 	@Override

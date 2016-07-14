@@ -7,6 +7,7 @@ import br.ufrpe.pixengine.core.GameContainer;
 import br.ufrpe.pixengine.core.Input;
 import br.ufrpe.pixengine.core.Renderer;
 import br.ufrpe.pixengine.core.fx.AnimatedImage;
+import br.ufrpe.pixengine.core.fx.SoundClip;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import java.lang.Math;
@@ -16,10 +17,15 @@ public class PacMan extends GameObject{
 	 private KeyCode direction;
 	 private KeyCode next_direction;
 	 int maze_matrice[][];
+	 SoundClip eating_blue_point_sound;
+	 SoundClip eating_purple_point_sound;
 	 private int speed;
 
 	 public PacMan(float x, float y, String tag, ObjectManager manager, int maze_matrice[][]) {
-		 setTag(tag);
+		setTag(tag);
+		
+		this.eating_blue_point_sound = new SoundClip("pacman_chomp_blue_point.wav");
+		this.eating_purple_point_sound = new SoundClip("pacman_chomp_purple_point.wav");
 		
 		this.x = x;
 		this.y = y;
@@ -27,10 +33,10 @@ public class PacMan extends GameObject{
 		this.w = 36;
 		this.h = 36;
 		
-		this.speed = 240; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
+		this.speed = 120; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
 		
 		this.direction = KeyCode.RIGHT;
-		this.pacman = new AnimatedImage("pacman/images/pacman_sprites.png", 400, 4, 4, 0, 0, 36, 36);
+		this.pacman = new AnimatedImage("images/pacman_sprites.png", 400, 4, 4, 0, 0, 36, 36);
 		
 		this.manager = manager;
 		this.maze_matrice = maze_matrice;
@@ -76,7 +82,8 @@ public class PacMan extends GameObject{
 	}
 	
 	
-	/**Função que checa se um tile é disponível ou não para ser percorrido.
+	/**
+	 * Função que checa se um tile é disponível ou não para ser percorrido.
 	 * 
 	 * @param row
 	 * @param column
@@ -91,12 +98,11 @@ public class PacMan extends GameObject{
 	
 	
 	/**
-	 * Função que checa se o pacman pode continuar a se mover pro lado
-	 * direito.
+	 * Função que checa se o pacman pode se mover pro lado direito.
 	 * 
 	 * @return
 	 */
-	private boolean canKeepGoingToTheRightSide(){
+	private boolean canGoToTheRight(){
 		int row    = (int) Math.floor(y/h);
 		int column = (int) Math.floor(x/w) + 1;
 		
@@ -105,11 +111,11 @@ public class PacMan extends GameObject{
 	
 	
 	/**
-	 * Função que checa se o pacman pode continuar a descer.
+	 * Função que checa se o pacman pode descer.
 	 * 
 	 * @return
 	 */
-	private boolean canKeepGoingDown(){
+	private boolean canGoDown(){
 		int row    = (int) Math.floor(y/h) + 1;
 		int column = (int) Math.floor(x/w);
 		
@@ -118,12 +124,11 @@ public class PacMan extends GameObject{
 	
 	
 	/**
-	 * Função que checa se o pacman pode continuar a se mover pro lado
-	 * esquerdo.
+	 * Função que checa se o pacman pode se mover pro lado esquerdo.
 	 * 
 	 * @return
 	 */
-	private boolean canKeepGoingToTheLeftSide(){
+	private boolean canGoToTheLeft(){
 		int row    = (int) Math.floor(y/h);
 		int column = (int) Math.ceil(x/w) - 1;
 		
@@ -132,11 +137,11 @@ public class PacMan extends GameObject{
 	
 	
 	/**
-	 * Função que checa se o pacman pode continuar a subir.
+	 * Função que checa se o pacman pode subir.
 	 * 
 	 * @return
 	 */
-	private boolean canKeepGoingUp(){
+	private boolean canGoUp(){
 		int row    = (int) Math.ceil(y/h) - 1;
 		int column = (int) Math.floor(x/w);
 		
@@ -145,16 +150,33 @@ public class PacMan extends GameObject{
 	
 	
 	/**
-	 * Função que checa se o pacman pode ou não mudar em dado momento
+	 * Função que checa se o pacman pode ou não mudar de direção
+	 * em dado momento
 	 * 
 	 * @param direction
 	 */
-	private boolean canChangeDirection(KeyCode pressed_key) {
-		if      (pressed_key == KeyCode.RIGHT) { return canKeepGoingToTheRightSide(); }
-		else if (pressed_key == KeyCode.DOWN)  { return canKeepGoingDown();           }	
-		else if (pressed_key == KeyCode.LEFT)  { return canKeepGoingToTheLeftSide();  }
-		else if (pressed_key == KeyCode.UP)    { return canKeepGoingUp();             }
-
+	private boolean canChangeDirection() {
+		if (((direction == KeyCode.RIGHT || direction == KeyCode.LEFT) &&  
+			(next_direction == KeyCode.RIGHT || next_direction == KeyCode.LEFT)) ||
+		   ((direction == KeyCode.UP || direction == KeyCode.DOWN) &&  
+					(next_direction == KeyCode.UP || next_direction == KeyCode.DOWN))){
+			return true;
+		}
+					
+		else if (x % 36 == 0 && y % 36 == 0) {
+			if (next_direction == KeyCode.RIGHT) {
+				return canGoToTheRight();
+			}
+			else if (next_direction == KeyCode.DOWN) {
+				return canGoDown();
+			}
+			else if (next_direction == KeyCode.LEFT) {
+				return canGoToTheLeft();
+			}
+			else if (next_direction == KeyCode.UP) {
+				return canGoUp();
+			}
+		}
 		return false;
 	}
 	
@@ -166,34 +188,20 @@ public class PacMan extends GameObject{
 	 */
 	private void updateDiretion(KeyCode pressed_key){
 		direction = pressed_key;
-		if      (pressed_key == KeyCode.RIGHT) { pacman.setOffSetY(0);  }
-		else if (pressed_key == KeyCode.DOWN)  { pacman.setOffSetY(36); }	
-		else if (pressed_key == KeyCode.LEFT)  { pacman.setOffSetY(72); }
-		else if (pressed_key == KeyCode.UP)    { pacman.setOffSetY(108);}	
-		
-	}
 
-	
-	/**
-	 * Função para atualizar a posição do pacman caso ele
-	 * atinga os limites do game container.
-	 * 
-	 * @param gc
-	 */
-	private void checkBoundaries(GameContainer gc){
-		float x_end = (float) (gc.getWidth() - w);	
-		if (x < 0){
-			setX(x_end);
-		}else if (x > x_end) {
-			setX(0);
+		if (pressed_key == KeyCode.RIGHT) { 
+			pacman.setOffSetY(0);
 		}
+		else if (pressed_key == KeyCode.DOWN) { 
+			pacman.setOffSetY(36);
+		}	
+		else if (pressed_key == KeyCode.LEFT) { 
+			pacman.setOffSetY(72);
+		}
+		else if (pressed_key == KeyCode.UP) {
+			pacman.setOffSetY(108);
+		}	
 		
-		float y_end = (float) (gc.getHeight() - w); 
-		if (y < 0){
-			setY(y_end);
-		}else if (y > y_end) {
-			setY(0);
-		}
 	}
 	
 	
@@ -204,28 +212,25 @@ public class PacMan extends GameObject{
 	 */
 	private void movingPacman(float displacement){
 		if (direction == KeyCode.RIGHT) {
-			if (canKeepGoingToTheRightSide()){
+			if (canGoToTheRight()){
 				setX(x + displacement);
 				setY(y);
 			}
 		}
 		else if (direction == KeyCode.DOWN) {
-			if(canKeepGoingDown()){
-				
+			if(canGoDown()){
 				setX(x);
 				setY(y + displacement);
-				System.out.println(x);
-				System.out.println(y);
 			}
 		} 
 		else if (direction == KeyCode.LEFT) {
-			if(canKeepGoingToTheLeftSide()){
+			if(canGoToTheLeft()){
 				setX(x - displacement);
 				setY(y);
 			}
 		}
 		else if (direction == KeyCode.UP) {
-			if(canKeepGoingUp()){
+			if(canGoUp()){
 				setX(x); 
 				setY(y - displacement);
 			}
@@ -239,20 +244,18 @@ public class PacMan extends GameObject{
 		Input game_input = gc.getInput();
 		
 		if (wasAKeyPressed(game_input)){
-			KeyCode pressed_key = pressedKey(game_input);
-			
-			if(canChangeDirection(pressed_key)){
-				updateDiretion(pressed_key);
-				movingPacman(dt * speed);
-			} 
-			else {
-				
-			}
+			next_direction = pressedKey(game_input);
+		}
+		
+		else if (next_direction != null && canChangeDirection() ){
+			updateDiretion(next_direction);
+			movingPacman(dt * speed);
+			next_direction = null;
 		}
 		else{
 			movingPacman(dt * speed);
 		}
-	
+
 		pacman.nextFrame(dt);
 		updateComponents(gc, dt);
 	}
@@ -271,9 +274,11 @@ public class PacMan extends GameObject{
 	public void componentEvent(String name, GameObject object) {
 		if (name.equalsIgnoreCase("collider")) {
 			if(object instanceof BluePoint){
-				manager.removeObject(object.getTag());
+				manager.removePoints(object.getTag());
+				eating_blue_point_sound.play();
 			} else if(object instanceof PurplePoint){
-				manager.removeObject(object.getTag());
+				manager.removePoints(object.getTag());
+				eating_purple_point_sound.play();
 			}
 		}
 	}
