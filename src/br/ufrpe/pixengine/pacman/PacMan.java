@@ -33,7 +33,7 @@ public class PacMan extends GameObject{
 		this.w = 36;
 		this.h = 36;
 		
-		this.speed = 120; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
+		this.speed = 240; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
 		
 		this.direction = KeyCode.RIGHT;
 		this.pacman = new AnimatedImage("images/pacman_sprites.png", 400, 4, 4, 0, 0, 36, 36);
@@ -238,6 +238,28 @@ public class PacMan extends GameObject{
 		
 	}
 
+	/**
+	 * Função para atualizar a posição do pacman caso ele
+	 * passe por um portal
+	 * 
+	 * @param gc
+	 */
+	private void checkBoundaries(GameContainer gc){
+		float x_end = (float) (gc.getWidth() - this.w);	
+		if (this.x <= 0){
+			this.setX(x_end);
+		}else if (this.x >= x_end) {
+			this.setX(0);
+		}
+		
+		float y_end = (float) (gc.getHeight() - this.h); 
+		if (this.y < 0){
+			this.setY(y_end);
+		}else if (this.y > y_end) {
+			this.setY(0);
+		}
+	}
+	
 	
 	@Override
 	public void update(GameContainer gc, float dt) {
@@ -255,7 +277,8 @@ public class PacMan extends GameObject{
 		else{
 			movingPacman(dt * speed);
 		}
-
+		
+		checkBoundaries(gc);
 		pacman.nextFrame(dt);
 		updateComponents(gc, dt);
 	}

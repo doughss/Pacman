@@ -8,8 +8,8 @@ import br.ufrpe.pixengine.core.fx.SoundClip;
 import br.ufrpe.pixengine.pacman.PacMan;
 
 
-public class FirstStage extends State {
-	public FirstStage() {
+public class FirstState extends State {
+	public FirstState() {
 		manager.addObject(new GameImage("images/floor.png"));
 		// mapa do labirinto
 		int maze_matrice[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -30,7 +30,7 @@ public class FirstStage extends State {
 	}
 	
 	/**
-	 * FunÃ§Ã£o para montar o labirinto
+	 * Função para montar o labirinto
 	 * 
 	 * @param game_input: Controlador de input do jogo
 	 */
@@ -59,6 +59,9 @@ public class FirstStage extends State {
 	@Override
 	public void update(GameContainer gc, float dt) {
 		manager.updateObjects(gc, dt);
+		if(manager.getPointsAmount()==0){
+			gc.getGame().push(new WinState());
+		}
 	}
 
 	@Override
