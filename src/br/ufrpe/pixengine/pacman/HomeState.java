@@ -23,6 +23,7 @@ public class HomeState extends State {
 	public void update(GameContainer gc, float dt) {
 		Input game_input = gc.getInput();
 		if (game_input.isKeyPressed(KeyCode.ENTER.ordinal())) {
+			gc.getGame().pop();
 			gc.getGame().push(new FirstState());
 			initial_music.stop();
 		} 

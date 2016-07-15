@@ -310,6 +310,7 @@ public class PacMan extends GameObject{
 				}
 				else{
 					setDead(true);
+					manager.stop_getting_strong_sound();
 				}
 			}
 		}

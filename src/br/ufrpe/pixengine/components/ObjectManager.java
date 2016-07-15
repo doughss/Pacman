@@ -76,7 +76,17 @@ public class ObjectManager {
 	
 	public void made_ghosts_weak () {
 		for (Ghost ghostObject : ghosts) {
-			ghostObject.get_weak();
+			if(!ghostObject.is_weak && !ghostObject.is_hidden){
+				ghostObject.get_weak();
+			}
+			
 		}
+	}
+
+	public void stop_getting_strong_sound() {
+		for (Ghost ghost : ghosts) {
+			ghost.getting_strong.stop();
+		}
+		
 	}
 }

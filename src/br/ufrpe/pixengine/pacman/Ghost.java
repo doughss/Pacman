@@ -25,7 +25,7 @@ public class Ghost extends GameObject{
 	 private float weakness_time;
 	 private float hidden_time;
 	 private SoundClip has_been_eaten_sound = new SoundClip("ghost_has_been_eaten.wav");
-	 private SoundClip getting_strong = new SoundClip("ghost_strong.wav");
+	 public SoundClip getting_strong = new SoundClip("ghost_strong.wav");
 	 
 	 public Ghost(float x, float y, int offsetY, String tag, ObjectManager manager, int maze_matrice[][]) {
 		setTag(tag);

@@ -21,6 +21,12 @@ public class GameOverState extends State {
 
 	@Override
 	public void update(GameContainer gc, float dt) {
+		Input game_input = gc.getInput();
+		if (game_input.isKeyPressed(KeyCode.ENTER.ordinal())) {
+			gameover_sound.stop();
+			gc.getGame().pop();
+			gc.getGame().push(new FirstState());
+		} 
 		manager.updateObjects(gc, dt);
 	}
 

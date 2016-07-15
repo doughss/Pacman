@@ -8,30 +8,30 @@ import br.ufrpe.pixengine.core.fx.SoundClip;
 import br.ufrpe.pixengine.pacman.PacMan;
 
 
-public class FirstState extends State {
-	public FirstState() {
+public class SecondState extends State {
+	public SecondState() {
 		manager.addObject(new GameImage("images/floor.png"));
 		// mapa do labirinto
-		int maze_matrice[][] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-						        {0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
-						        {0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0},
-						        {0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0},
-						        {0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0},
-						        {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
-						        {0,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0,1,0,0,0},
-						        {0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0},
-						        {0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0},
+		int maze_matrice[][] = {{0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
+						        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+						        {0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0},
+						        {0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0},
+						        {0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0},
+						        {1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1},
+						        {0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0},
+						        {0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0},
+						        {0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0},
 						        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
 						        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		
 		manager.setPoitsAmout(this.build_maze(manager, maze_matrice));
 		
 		manager.addObject(new PacMan(360, 324, "pacman", manager, maze_matrice));
-		manager.addObject(new Ghost(36,   36,    0, "ghost1", manager, maze_matrice));
-		manager.addObject(new Ghost(180,  180,  36, "ghost2", manager, maze_matrice));
-		manager.addObject(new Ghost(648,  36,   72, "ghost3", manager, maze_matrice));
-		manager.addObject(new Ghost(648,  324, 108, "ghost4", manager, maze_matrice));
-		manager.addObject(new Ghost(36,   324, 144, "ghost5", manager, maze_matrice));
+		manager.addObject(new Ghost(108, 36, 0, "ghost1", manager, maze_matrice));
+		manager.addObject(new Ghost(108, 108, 36, "ghost2", manager, maze_matrice));
+		manager.addObject(new Ghost(108, 180, 72, "ghost3", manager, maze_matrice));
+		manager.addObject(new Ghost(108, 252, 108, "ghost4", manager, maze_matrice));
+		manager.addObject(new Ghost(108, 324, 144, "ghost5", manager, maze_matrice));
 	}
 	
 	/**
