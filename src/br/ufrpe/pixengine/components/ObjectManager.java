@@ -1,13 +1,17 @@
 package br.ufrpe.pixengine.components;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import br.ufrpe.pixengine.core.GameContainer;
 import br.ufrpe.pixengine.core.Renderer;
+import br.ufrpe.pixengine.pacman.BluePoint;
+import br.ufrpe.pixengine.pacman.Ghost;
 
 public class ObjectManager {
 	private ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	private int points_amount;
+	private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
 
 	public void updateObjects(GameContainer gc, float dt) {
 		for (int i = 0; i < objects.size(); i++) {
@@ -31,6 +35,9 @@ public class ObjectManager {
 	}
 
 	public void addObject(GameObject object) {
+		if(object instanceof Ghost){
+			ghosts.add((Ghost) object);
+		}
 		objects.add(object);
 	}
 	
@@ -65,5 +72,11 @@ public class ObjectManager {
 
 	public int getPointsAmount() {
 		return points_amount;
+	}
+	
+	public void made_ghosts_weak () {
+		for (Ghost ghostObject : ghosts) {
+			ghostObject.get_weak();
+		}
 	}
 }

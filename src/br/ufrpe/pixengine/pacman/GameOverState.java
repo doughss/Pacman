@@ -10,13 +10,13 @@ import br.ufrpe.pixengine.pacman.PacMan;
 import javafx.scene.input.KeyCode;
 
 
-public class WinState extends State {
-	SoundClip music_for_winner;
+public class GameOverState extends State {
+	SoundClip gameover_sound;
 
-	public WinState() {
-		manager.addObject(new GameImage("images/ending_screen.png"));
-		music_for_winner = new SoundClip("pacman_introduction.wav");
-		music_for_winner.play();
+	public GameOverState() {
+		manager.addObject(new GameImage("images/game_over_screen.png"));
+		gameover_sound = new SoundClip("pacman_gameover.wav");
+		gameover_sound.play();
 	}
 
 	@Override

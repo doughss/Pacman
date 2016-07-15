@@ -16,17 +16,22 @@ public class FirstState extends State {
 						        {0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
 						        {0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0},
 						        {0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0},
-						        {0,0,0,1,0,0,1,0,0,2,2,0,0,1,0,0,1,0,0,0},
-						        {1,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,1},
-						        {0,0,0,1,0,0,1,0,2,2,2,2,0,1,0,0,1,0,0,0},
-						        {0,1,1,1,1,1,1,0,2,2,2,2,0,1,1,1,1,1,1,0},
+						        {0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0},
+						        {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
+						        {0,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0,1,0,0,0},
+						        {0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0},
 						        {0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0},
 						        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
 						        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		
 		manager.setPoitsAmout(this.build_maze(manager, maze_matrice));
 		
-		manager.addObject(new PacMan(36, 36, "pacman", manager, maze_matrice));
+		manager.addObject(new PacMan(360, 324, "pacman", manager, maze_matrice));
+		manager.addObject(new Ghost(36,   36,    0, "ghost1", manager, maze_matrice));
+		manager.addObject(new Ghost(360,  216,  36, "ghost2", manager, maze_matrice));
+		manager.addObject(new Ghost(648,  36,   72, "ghost3", manager, maze_matrice));
+		manager.addObject(new Ghost(648,  324, 108, "ghost4", manager, maze_matrice));
+		manager.addObject(new Ghost(36,   324, 144, "ghost5", manager, maze_matrice));
 	}
 	
 	/**

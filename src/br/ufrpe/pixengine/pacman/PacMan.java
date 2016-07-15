@@ -17,13 +17,14 @@ public class PacMan extends GameObject{
 	 private KeyCode direction;
 	 private KeyCode next_direction;
 	 int maze_matrice[][];
-	 SoundClip eating_blue_point_sound;
-	 SoundClip eating_purple_point_sound;
+	 SoundClip eating_blue_point_sound = new SoundClip("pacman_chomp_blue_point.wav");
+	 SoundClip eating_purple_point_sound = new SoundClip("pacman_chomp_purple_point.wav");
+		
 	 private int speed;
 
 	 public PacMan(float x, float y, String tag, ObjectManager manager, int maze_matrice[][]) {
 		setTag(tag);
-		
+
 		this.eating_blue_point_sound = new SoundClip("pacman_chomp_blue_point.wav");
 		this.eating_purple_point_sound = new SoundClip("pacman_chomp_purple_point.wav");
 		
@@ -33,7 +34,7 @@ public class PacMan extends GameObject{
 		this.w = 36;
 		this.h = 36;
 		
-		this.speed = 240; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
+		this.speed = 120; // pode ser 40, 80, 120, 160, 240, 360, 480 será configurável
 		
 		this.direction = KeyCode.RIGHT;
 		this.pacman = new AnimatedImage("images/pacman_sprites.png", 400, 4, 4, 0, 0, 36, 36);
@@ -211,31 +212,22 @@ public class PacMan extends GameObject{
 	 * @param displacement
 	 */
 	private void movingPacman(float displacement){
-		if (direction == KeyCode.RIGHT) {
-			if (canGoToTheRight()){
-				setX(x + displacement);
-				setY(y);
-			}
+		if (direction == KeyCode.RIGHT && canGoToTheRight()) {
+			setX(x + displacement);
+			setY(y);
 		}
-		else if (direction == KeyCode.DOWN) {
-			if(canGoDown()){
-				setX(x);
-				setY(y + displacement);
-			}
+		else if (direction == KeyCode.DOWN && canGoDown()) {
+			setX(x);
+			setY(y + displacement);
 		} 
-		else if (direction == KeyCode.LEFT) {
-			if(canGoToTheLeft()){
-				setX(x - displacement);
-				setY(y);
-			}
+		else if (direction == KeyCode.LEFT && canGoToTheLeft()) {
+			setX(x - displacement);
+			setY(y);
 		}
-		else if (direction == KeyCode.UP) {
-			if(canGoUp()){
-				setX(x); 
-				setY(y - displacement);
-			}
+		else if (direction == KeyCode.UP && canGoUp()) {
+			setX(x); 
+			setY(y - displacement);
 		}
-		
 	}
 
 	/**
@@ -263,6 +255,12 @@ public class PacMan extends GameObject{
 	
 	@Override
 	public void update(GameContainer gc, float dt) {
+		
+		if(isDead()){
+			gc.getGame().pop();
+			gc.getGame().push(new GameOverState());
+		}
+		
 		Input game_input = gc.getInput();
 		
 		if (wasAKeyPressed(game_input)){
@@ -299,9 +297,20 @@ public class PacMan extends GameObject{
 			if(object instanceof BluePoint){
 				manager.removePoints(object.getTag());
 				eating_blue_point_sound.play();
-			} else if(object instanceof PurplePoint){
+			}
+			if(object instanceof PurplePoint){
 				manager.removePoints(object.getTag());
 				eating_purple_point_sound.play();
+				manager.made_ghosts_weak();
+			}
+			if(object instanceof Ghost){
+				Ghost ghost = (Ghost) object;
+				if(ghost.is_weak){
+					ghost.has_been_eaten();
+				}
+				else{
+					setDead(true);
+				}
 			}
 		}
 	}
