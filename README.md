@@ -1,6 +1,6 @@
 # Pacman
 
-This project is Pacman remake version. It was developed for Digital Games module. The main goal
+This project is a Pacman remake version. It was developed for Digital Games module. The main goal
 was build a digital game using Java and JavaFx.
 
 ## Technologies
@@ -8,8 +8,8 @@ was build a digital game using Java and JavaFx.
   - JavaFx
 
 ## Usage
-1. Import this project on Eclipse
-1. Build a .jar
+1. Import this project in Eclipse
+1. Build a .jar file
 
 ## Screeshots
 ![initial screen](http://imagizer.imageshack.us/v2/722x396q90/922/JVR6J6.png)
