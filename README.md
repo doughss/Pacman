@@ -1,7 +1,8 @@
 # Pacman
 
 This project is a Pacman remake version. It was developed for Digital Games module. The main goal
-was build a digital game using Java and JavaFx.
+was build a 2D Game using Java and JavaFx. Tis project was forked from [PixEngine]
+(https://github.com/lmarques7/PixEngine)
 
 ## Technologies
   - Java
